@@ -1,0 +1,2 @@
+fairpy
+gspread
