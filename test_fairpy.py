@@ -5,3 +5,4 @@ instance = {
     "Tami": {"green": 12, "red":8, "blue": 4, "yellow": 2} }
 allocation = fairpy.items.round_robin(instance)
 print(allocation)
+print("fairpy OK!")
