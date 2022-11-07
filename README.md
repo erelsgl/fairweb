@@ -47,3 +47,10 @@ To run the web-app, run:
 Then, open the page `http://<your-address>:5000`.
 
 Click the button to run the algorithm.
+
+To run the web-app in the background, run:
+
+    nohup python app.py > app.log 2>&1 &
+    less app.log
+
+    
