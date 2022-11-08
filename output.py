@@ -27,9 +27,12 @@ def cells(input_rows, agents, items, map_agent_to_fractions):
 	"""
 	Returns new cells, for updating the output worksheet.
 	"""
+	NAME_COLUMN = 1
+	ENTITLEMENT_COLUMN = 2
+
 	new_cells = []
-	new_cells += [gspread.Cell(i+1, 1, "=input!"+gspread.utils.rowcol_to_a1(i+1,1)) for i in range(len(input_rows))]  # Copy column 1
-	new_cells += [gspread.Cell(i+1, 2, "=input!"+gspread.utils.rowcol_to_a1(i+1,2)) for i in range(len(input_rows))]  # Copy column 2
+	new_cells += [gspread.Cell(i+1, NAME_COLUMN, "=input!"+gspread.utils.rowcol_to_a1(i+1,1)) for i in range(len(input_rows))]  # Copy column 1
+	new_cells += [gspread.Cell(i+1, ENTITLEMENT_COLUMN, "=input!"+gspread.utils.rowcol_to_a1(i+1,2)) for i in range(len(input_rows))]  # Copy column 2
 	new_cells += [gspread.Cell(1, o+3, items[o]) for o in range(len(items))]   # Write item names
 
 	# Insert results:
@@ -50,8 +53,9 @@ def cells(input_rows, agents, items, map_agent_to_fractions):
 	# Insert formula for computing the utilities:
 
 	utility_column = len(items)+4
-	new_cells += [gspread.Cell(1, utility_column, "ערך באחוזים")] 
-	new_cells += [gspread.Cell(1, utility_column+1, "ערך ביחס למנדטים")] 
+	new_cells += [gspread.Cell(1, utility_column,  "ערך באחוזים")]
+	new_cells += [gspread.Cell(1, utility_column+1, "ערך מגיע באחוזים")]
+	new_cells += [gspread.Cell(1, utility_column+2, "יחס ערכים")]
 
 	for i in range(len(agents)):
 		row_num = i+2
@@ -61,8 +65,15 @@ def cells(input_rows, agents, items, map_agent_to_fractions):
 		new_cells += [gspread.Cell(row_num, utility_column, f"=SUMPRODUCT(input!{range_a1},output!{range_a1})/sum(input!{range_a1})")]
 
 		utility_cell = gspread.utils.rowcol_to_a1(row_num, utility_column)
-		entitlement_cell = gspread.utils.rowcol_to_a1(row_num, 2)
-		new_cells += [gspread.Cell(row_num, utility_column+1, f"={utility_cell}/{entitlement_cell}*100")]
+		entitlement_cell = gspread.utils.rowcol_to_a1(row_num, ENTITLEMENT_COLUMN)
+		first_entitlement_cell = gspread.utils.rowcol_to_a1(2, ENTITLEMENT_COLUMN)
+		last_entitlement_cell = gspread.utils.rowcol_to_a1(len(agents)+1, ENTITLEMENT_COLUMN)
+		new_cells += [gspread.Cell(row_num, utility_column+1, f"={entitlement_cell}/SUM({first_entitlement_cell}:{last_entitlement_cell})")]
+
+		entitlement_cell_percent = gspread.utils.rowcol_to_a1(row_num, utility_column+1)
+		new_cells += [gspread.Cell(row_num, utility_column+2, f"={utility_cell}/{entitlement_cell_percent}")]
 
 	return new_cells
 
+print("output version 2")\
+	
