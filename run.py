@@ -1,9 +1,9 @@
 import input, allocate, gspread, output
 
-def run():
+def run(url:str, language:str="he"):
     print("\nOPENING SPREADSHEET")
     account = gspread.service_account("credentials.json")
-    spreadsheet = account.open("FairDivision")
+    spreadsheet = account.open_by_url(url)
 
     print("\nREADING INPUT DATA")
     rows = input.read_rows(spreadsheet)
@@ -20,7 +20,7 @@ def run():
     new_col_count = len(items)+5
     output_sheet = output.worksheet(spreadsheet, new_row_count, new_col_count)
     output_sheet.clear()
-    new_cells = output.cells(rows, agents, items, map_agent_to_fractions)
+    new_cells = output.cells(rows, agents, items, map_agent_to_fractions, language)
     output_sheet.update_cells(new_cells, value_input_option='USER_ENTERED')
 
     print("\nFORMATTING OUTPUT SHEET")

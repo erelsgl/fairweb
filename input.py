@@ -37,7 +37,7 @@ def analyze_rows(rows:List[List[str]])->Tuple[list,list,dict]:
 	>>> entitlement_normalized_preferences
 	"""
 	items = rows[0][2:-1]  # remove agent names, entitlements, and total
-	items.remove('')
+	items = [item for item in items if item != '']
 	logger.info("items: %s", items)
 
 	rows_of_agents = rows[1:-1]    # remove item names and total

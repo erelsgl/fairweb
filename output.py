@@ -7,6 +7,21 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+TEXTS = {
+	"value_percent": {
+		"he": "ערך באחוזים",
+		"en": "Value in percent",
+	},
+	"due_value_percent": {
+		"he": "ערך מגיע באחוזים",
+		"en": "Due value in percent",
+	},
+	"value_ratio": {
+		"he": "יחס ערכים",
+		"en": "Value ratio",
+	},
+}
+
 
 def worksheet(spreadsheet:gspread.Spreadsheet, new_row_count,  new_col_count)->gspread.Worksheet:
 	try:
@@ -23,10 +38,14 @@ def worksheet(spreadsheet:gspread.Spreadsheet, new_row_count,  new_col_count)->g
 	# output.update_cells(input_range)
 	return output_sheet
 
-def cells(input_rows, agents, items, map_agent_to_fractions):
+def cells(input_rows, agents, items, map_agent_to_fractions, language="he"):
 	"""
 	Returns new cells, for updating the output worksheet.
 	"""
+
+	def text(code:str):
+		return TEXTS[code][language]
+
 	NAME_COLUMN = 1
 	ENTITLEMENT_COLUMN = 2
 
@@ -53,9 +72,9 @@ def cells(input_rows, agents, items, map_agent_to_fractions):
 	# Insert formula for computing the utilities:
 
 	utility_column = len(items)+4
-	new_cells += [gspread.Cell(1, utility_column,  "ערך באחוזים")]
-	new_cells += [gspread.Cell(1, utility_column+1, "ערך מגיע באחוזים")]
-	new_cells += [gspread.Cell(1, utility_column+2, "יחס ערכים")]
+	new_cells += [gspread.Cell(1, utility_column,  text("value_percent"))]
+	new_cells += [gspread.Cell(1, utility_column+1, text("due_value_percent"))]
+	new_cells += [gspread.Cell(1, utility_column+2, text("value_ratio"))]
 
 	for i in range(len(agents)):
 		row_num = i+2
@@ -75,5 +94,5 @@ def cells(input_rows, agents, items, map_agent_to_fractions):
 
 	return new_cells
 
-print("output version 2")\
+# print("output version 2")
 	
