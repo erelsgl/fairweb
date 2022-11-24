@@ -30,7 +30,7 @@ def step2(lang:str):
         print("error=",error)
         return render_template(f'1-{lang}.html', error=error, lang=lang)
     else:
-        return render_template('2-en.html', url=url, lang=lang)
+        return render_template(f'2-{lang}.html', url=url, lang=lang)
 
 #rendering the HTML page which has the button
 @app.route('/')
