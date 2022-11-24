@@ -34,7 +34,16 @@ def analyze_rows(rows:List[List[str]])->Tuple[list,list,dict]:
 	['foreign', 'defence', 'finance', 'police', 'justice', 'interior', 'health', 'educations']
 	>>> entitlement_normalized_preferences[agents[0]]
 	{'foreign': 0.333, 'defence': 0.333, 'finance': 0.333, 'police': 0.167, 'justice': 0.167, 'interior': 0.167, 'health': 0.167, 'educations': 0.333}
-	>>> entitlement_normalized_preferences
+
+	# Set entitlement to 0
+	>>> rows = [['party', 'mandates', 'foreign', 'defence', 'finance', 'police', 'justice', 'interior', 'health', 'educations', '', 'total'], ['likkud', '0', '20', '20', '20', '10', '10', '10', '10', '20', '', '120'], ['religious', '14', '10', '20', '10', '30', '20', '10', '20', '20', '', '140'], ['shas', '11', '5', '5', '20', '5', '10', '30', '20', '20', '', '115'], ['aguda', '7', '5', '5', '5', '5', '5', '10', '20', '20', '', '75'], ['total', '64', '', '', '', '', '', '', '', '', '', '']]
+	>>> agents, items, entitlement_normalized_preferences = analyze_rows(rows)
+	>>> agents
+	['likkud', 'religious', 'shas', 'aguda']
+	>>> items
+	['foreign', 'defence', 'finance', 'police', 'justice', 'interior', 'health', 'educations']
+	>>> entitlement_normalized_preferences[agents[0]]  # doctest: +ELLIPSIS
+	{'foreign': 5333.333, 'defence': 5333.333, 'finance': 5333.333, 'police': 2666.667, 'justice': 2666.667, 'interior': 2666.667, 'health': 2666.667, 'educations': 5333.333}
 	"""
 	items = rows[0][2:-1]  # remove agent names, entitlements, and total
 	items = [item for item in items if item != '']
@@ -70,13 +79,14 @@ def analyze_rows(rows:List[List[str]])->Tuple[list,list,dict]:
 		ratio = new_sum/current_sum
 		return {item: np.round(value*ratio,3) for item,value in prefs.items()}
 
-	normalized_preferences = {
-		agent: normalized_prefs(prefs, total_entitlements) for agent,prefs in raw_preferences.items()
-	}
-	print_prefs("normalized_preferences: ", normalized_preferences)
+	# normalized_preferences = {
+	# 	agent: normalized_prefs(prefs, total_entitlements) for agent,prefs in raw_preferences.items()
+	# }
+	# print_prefs("normalized_preferences: ", normalized_preferences)
 
+	EPSILON =  0.001
 	entitlement_normalized_preferences = {
-		agent: normalized_prefs(prefs, total_entitlements / map_agent_to_entitlement[agent]) for agent,prefs in raw_preferences.items()
+		agent: normalized_prefs(prefs, total_entitlements / (map_agent_to_entitlement[agent]+EPSILON)) for agent,prefs in raw_preferences.items()
 	}
 	print_prefs("entitlement_normalized_preferences: ", entitlement_normalized_preferences)
 	return agents, items, entitlement_normalized_preferences
@@ -91,4 +101,4 @@ if __name__=="__main__":
 	# print(read_rows(spreadsheet))
 
 	import doctest
-	print(doctest.testmod())
+	print(doctest.testmod(optionflags=doctest.ELLIPSIS))
