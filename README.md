@@ -26,8 +26,7 @@ To test the installation, run:
 
 ## Usage
 
-Create a Google Spreadsheet named `FairDivision`,
-and share it with the following email: 
+Create a Google Spreadsheet and share it with the email in your `credentials.json` file. It should look like: 
 
     test-159@spreadsheet-example-erelsgl.iam.gserviceaccount.com
 

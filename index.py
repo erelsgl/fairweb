@@ -16,6 +16,7 @@ def step2(lang:str):
     try:
         import gspread
         account = gspread.service_account("credentials.json")
+        print("account=",account)
         spreadsheet = account.open_by_url(url)
         print("spreadsheet=",spreadsheet)
     except gspread.exceptions.APIError:

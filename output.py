@@ -4,6 +4,9 @@ Utilities for updating the output spreadsheet.
 
 import gspread
 import logging
+from gspread_utils import get_worksheet_by_list_of_possible_names
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,13 +27,13 @@ TEXTS = {
 
 
 def worksheet(spreadsheet:gspread.Spreadsheet, new_row_count,  new_col_count)->gspread.Worksheet:
-	try:
-		output_sheet = spreadsheet.worksheet("output")
+	output_sheet = get_worksheet_by_list_of_possible_names(spreadsheet, ["תוצאות", "output"])
+	if output_sheet is not None:
 		if output_sheet.row_count < new_row_count:
 			output_sheet.add_rows(new_row_count - output_sheet.row_count)
 		if output_sheet.col_count < new_col_count:
 			output_sheet.add_cols(new_col_count - output_sheet.col_count)
-	except output_sheet.WorksheetNotFound:
+	else: # if output_sheet is None:
 		output_sheet = spreadsheet.add_worksheet(title="output", rows=new_row_count, cols=new_col_count)
 		# TODO: change worksheet direction to RTL
 		# I did not find here https://docs.gspread.org/en/latest/api/models/worksheet.html#id1   how to do this.

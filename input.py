@@ -6,15 +6,19 @@ import gspread
 from typing import *
 import numpy as np
 import logging
+from gspread_utils import get_worksheet_by_list_of_possible_names
 
 logger = logging.getLogger(__name__)
+
 
 def read_rows(spreadsheet:gspread.Spreadsheet)->List[List[str]]:
 	"""
 	Returns a list of rows in the "input" worksheet of the given spreadsheet.
 	Each row is a list of string values.
 	"""
-	input_sheet = spreadsheet.worksheet("input")
+	input_sheet = get_worksheet_by_list_of_possible_names(spreadsheet, ["נתונים", "input"])
+	if input_sheet is None:
+		raise gspread.WorksheetNotFound(f"Did not find a worksheet with name in {INPUT_WORKSHEET_NAMES}. Worksheets are: {worksheet_names}")
 	logger.info("Rows: %d, Cols: %d", input_sheet.row_count, input_sheet.col_count)
 	rows = input_sheet.get_all_values()
 	return rows
