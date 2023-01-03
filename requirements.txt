@@ -1,3 +1,4 @@
 fairpy @ git+https://github.com/erelsgl/fairpy.git
 gspread
 flask
+gunicorn
