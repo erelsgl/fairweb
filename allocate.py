@@ -20,10 +20,10 @@ def allocate(agents, entitlement_normalized_preferences)->Dict:
 	>>> allocate(agents, entitlement_normalized_preferences)
 	{'likkud': array([1.   , 1.   , 1.   , 0.   , 0.276, 0.043, 0.404, 1.   ]), 'religious': array([0.   , 0.   , 0.   , 1.   , 0.724, 0.   , 0.   , 0.   ]), 'shas': array([0.   , 0.   , 0.   , 0.   , 0.   , 0.957, 0.   , 0.   ]), 'aguda': array([0.   , 0.   , 0.   , 0.   , 0.   , 0.   , 0.596, 0.   ])}
 	"""
-	leximin_allocation = fairpy.items.leximin_optimal_allocation(entitlement_normalized_preferences)
+	leximin_allocation = fairpy.divide(fairpy.items.leximin_optimal_allocation, entitlement_normalized_preferences)
 	logger.info("leximin allocation: %s", leximin_allocation)
 	leximin_utility_profile = leximin_allocation.utility_profile()
-	bounded_sharing_allocation = dominating_allocation_with_bounded_sharing(entitlement_normalized_preferences, leximin_utility_profile)
+	bounded_sharing_allocation = fairpy.divide(dominating_allocation_with_bounded_sharing, entitlement_normalized_preferences, thresholds=leximin_utility_profile)
 	logger.info("bounded sharing allocation: %s", bounded_sharing_allocation)
 
 	def rounded_fractions(fractions):
