@@ -29,4 +29,5 @@ def run(url:str, language:str="he"):
     output_sheet.format(f"{first_cell}:{last_cell}", {"numberFormat": {"type": "PERCENT", "pattern": "##.#%"}})
 
 if __name__=="__main__":
-    run()
+    URL_FOR_GOVERNMENT = "https://docs.google.com/spreadsheets/d/1tJPV-y-r1TAx5FqbrqecKPJMeKHTtIDeiYck8eLoGKY"
+    run(URL_FOR_GOVERNMENT)

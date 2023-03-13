@@ -1,4 +1,4 @@
-fairpy @ git+https://github.com/erelsgl/fairpy.git
-gspread
 flask
+gspread
+fairpy @ git+https://github.com/erelsgl/fairpy.git
 gunicorn

@@ -4,6 +4,11 @@ app = Flask(__name__)
 # Solution from here: https://stackoverflow.com/a/49334973
 
 #rendering the HTML page which has the button
+@app.route('/')
+def root():
+    return render_template('0.html')
+
+#rendering the HTML page which has the button
 @app.route('/1/<lang>')
 def step1(lang:str):
     return render_template(f'1-{lang}.html', lang=lang)
@@ -32,11 +37,6 @@ def step2(lang:str):
         return render_template(f'1-{lang}.html', error=error, lang=lang)
     else:
         return render_template(f'2-{lang}.html', url=url, lang=lang)
-
-#rendering the HTML page which has the button
-@app.route('/')
-def root():
-    return render_template('0.html')
 
 #rendering the HTML page which has the button
 @app.route('/log')
