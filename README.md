@@ -7,7 +7,7 @@ Copy the credentials from your Google account, and put them in file `credentials
 
 Install python, virtualenv, and python-dev:
 
-    apt install python3 python3-virtualenv python3-dev
+    apt install python3 python3-virtualenv python3-dev gunicorn
 
 Create a new virtual environment and activate it:
 
@@ -49,8 +49,8 @@ Click the button to run the algorithm.
 
 To run the web-app in the background, run:
 
-    [nohup python app.py &]
-    nohup python app.py > app.log 2>&1 &
+    nohup gunicorn --bind 0.0.0.0:5000 app:app > app.log 2>&1 &
     less app.log
 
-    
+[1]: nohup python app.py & 
+[2]: nohup python app.py > app.log 2>&1 &
