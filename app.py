@@ -4,6 +4,11 @@ app = Flask(__name__)
 # Solution from here: https://stackoverflow.com/a/49334973
 
 #rendering the HTML page which has the button
+@app.route('/healthz')
+def healthz():
+    return {}, 200  # returns OK
+
+#rendering the HTML page which has the button
 @app.route('/')
 def root():
     return render_template('0.html')
