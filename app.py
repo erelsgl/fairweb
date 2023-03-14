@@ -6,7 +6,7 @@ app = Flask(__name__)
 #rendering the HTML page which has the button
 @app.route('/healthz')
 def healthz():
-    return {}, 200  # returns OK
+    return "OK", 200  # returns OK
 
 #rendering the HTML page which has the button
 @app.route('/')
