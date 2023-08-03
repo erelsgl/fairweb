@@ -35,8 +35,10 @@ def step2(lang:str):
         error = "Google Spreadsheet could not find a key in your URL! Please check that the URL you entered points to a valid spreadsheet."
     except gspread.exceptions.SpreadsheetNotFound:
         error = "Google Spreadsheet could not find the spreadsheet you entered! Please check that the URL points to a valid spreadsheet."
+    except FileNotFoundError as e:
+        error = f"File not found: {e.filename}."
     except Exception as e:
-        error = type(e).__name__ + "! Please check your URL and try again."
+        error = str(e) + "! Please check your URL and try again."
     if error is not None:
         print("error=",error)
         return render_template(f'1-{lang}.html', error=error, lang=lang)
