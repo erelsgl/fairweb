@@ -1,4 +1,4 @@
-# fairweb
+# FairWeb
 Fair division web application.
 
 ## Installation (on Ubuntu)
