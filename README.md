@@ -24,6 +24,7 @@ To test the installation, run:
     python test_fairpy.py
     python test_gspread.py
 
+
 ## Usage
 
 Create a Google Spreadsheet and share it with the email in your `credentials.json` file. It should look like: 
