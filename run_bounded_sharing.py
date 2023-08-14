@@ -1,4 +1,5 @@
-import input, allocate, gspread, output
+import gspread
+from bounded_sharing import input, allocate, output
 
 def run(url:str, language:str="he"):
     print("\nOPENING SPREADSHEET")
@@ -13,7 +14,6 @@ def run(url:str, language:str="he"):
     print("\nCOMPUTING ALLOCATION")
     map_agent_to_fractions = allocate.allocate(agents, entitlement_normalized_preferences)
     print("allocation: ", map_agent_to_fractions)
-
 
     print("\nUPDATING OUTPUT SHEET")
     new_row_count = len(agents)+2

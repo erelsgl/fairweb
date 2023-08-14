@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 def allocate(agents, entitlement_normalized_preferences)->Dict:
 	"""
 	Compute a bounded-sharing leximin allocation.
-	Returns the allocation as a dict mapping an agent to an nparray of fractions.
+	Returns the allocation as a dict mapping an agent to an ndarray of fractions.
 
 	>>> agents = ['likkud', 'religious', 'shas', 'aguda']
 	>>> entitlement_normalized_preferences =     {'likkud': {'foreign': 0.333, 'defence': 0.333, 'finance': 0.333, 'police': 0.167, 'justice': 0.167, 'interior': 0.167, 'health': 0.167, 'educations': 0.333}, 'religious': {'foreign': 0.327, 'defence': 0.653, 'finance': 0.327, 'police': 0.98, 'justice': 0.653, 'interior': 0.327, 'health': 0.653, 'educations': 0.653}, 'shas': {'foreign': 0.253, 'defence': 0.253, 'finance': 1.012, 'police': 0.253, 'justice': 0.506, 'interior': 1.518, 'health': 1.012, 'educations': 1.012}, 'aguda': {'foreign': 0.61, 'defence': 0.61, 'finance': 0.61, 'police': 0.61, 'justice': 0.61, 'interior': 1.219, 'health': 2.438, 'educations': 2.438}}

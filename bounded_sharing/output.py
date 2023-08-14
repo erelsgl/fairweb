@@ -3,7 +3,11 @@ Utilities for updating the output spreadsheet.
 """
 
 import gspread
-import logging
+import logging, sys, os
+
+currentdir = os.path.dirname(__file__)
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir) 
 from gspread_utils import get_worksheet_by_list_of_possible_names
 
 
@@ -27,7 +31,7 @@ TEXTS = {
 
 
 def worksheet(spreadsheet:gspread.Spreadsheet, new_row_count,  new_col_count)->gspread.Worksheet:
-	output_sheet = get_worksheet_by_list_of_possible_names(spreadsheet, ["תוצאות", "output"])
+	output_sheet = get_worksheet_by_list_of_possible_names(spreadsheet, ["תוצאות", "output"], error_if_not_found=False)
 	if output_sheet is not None:
 		if output_sheet.row_count < new_row_count:
 			output_sheet.add_rows(new_row_count - output_sheet.row_count)

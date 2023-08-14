@@ -62,8 +62,8 @@ def run_the_algorithm():
     url = request.args.get('url')
     lang = request.args.get('lang')
     print("url=",url, "lang=",lang)
-    import run
-    run.run(url=url, language=lang)
+    import run_bounded_sharing as run_bounded_sharing
+    run_bounded_sharing.run(url=url, language=lang)
     return "Run complete"
 
 if __name__ == '__main__':

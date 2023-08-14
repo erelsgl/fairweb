@@ -24,20 +24,22 @@ To test the installation, run:
     python test_fairpy.py
     python test_gspread.py
 
-## Usage
+## Preparation
 
 Create a Google Spreadsheet and share it with the email in your `credentials.json` file. It should look like: 
 
-    test-159@spreadsheet-example-erelsgl.iam.gserviceaccount.com
+    test-NNN@spreadsheet-example-erelsgl.iam.gserviceaccount.com
 
 Put the input in a worksheet named `input`.
 [See here for input format example](https://docs.google.com/spreadsheets/d/1tJPV-y-r1TAx5FqbrqecKPJMeKHTtIDeiYck8eLoGKY/edit#gid=0).
 
-Then, run `run.py`.
+## Batch execution
 
-You will see the output in a worksheet named `output`.
+Put the link to your spreadsheet in `batch_run.py`. Then run this file.
 
-## Flask app
+You will see the output in a worksheet named `output` in the same spreadsheet.
+
+## Flask application
 
 To run the web-app, run:
 
