@@ -35,7 +35,7 @@ Put the input in a worksheet named `input`.
 
 ## Batch execution
 
-Put the link to your spreadsheet in `batch_run.py`. Then run this file.
+Put the link to your spreadsheet in `run_bounded_sharing.py`. Then run this file.
 
 You will see the output in a worksheet named `output` in the same spreadsheet.
 

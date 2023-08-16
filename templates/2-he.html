@@ -12,7 +12,7 @@
           });
           $('button#run').on('click', function(e) {
             e.preventDefault()
-            $.getJSON('/run_the_algorithm?lang={{lang}}&url='+encodeURIComponent('{{url}}'), function(data) {});
+            $.getJSON('/run/{{algorithm_name}}?lang={{lang}}&url='+encodeURIComponent('{{url}}'), function(data) {});
             return false;
           });
         });

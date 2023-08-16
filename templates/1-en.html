@@ -1,11 +1,5 @@
 <html dir="ltr" lang="{{lang}}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-
-<!-- <link rel="stylesheet" href="style.css"/> -->
-<style>
-  li {margin-top: 1em;}
-  .error {color: red}
-</style>
 <body>
 
 <h1>Fair Division</h1>
@@ -13,13 +7,21 @@
 <p class="error">{{error}}</p>
 {% endif %}
 
-Start dividing things fairly in three easy steps:
+Start dividing things fairly in two easy steps:
 <ol>
-<li>Create a new Google Spreadsheet;</li>
-<li>Share the spreadsheet with the following email address: <br/><b>test-159@spreadsheet-example-erelsgl.iam.gserviceaccount.com</b></li>
-<li>Enter the URL of the spreadsheet here:
-<form method="GET" action="/2/{{lang}}">
-  <input name="url" size='100'/>
+<li>Create a new Google Spreadsheet and share it with the following email address: <br/><b>test-159@spreadsheet-example-erelsgl.iam.gserviceaccount.com</b></li>
+<li>Enter the URL of the spreadsheet and select an algorithm here:
+<form method="GET" action="/2/{{lang}}" style="margin:1em">
+  <div>  
+    <input name="url" size='100'/> 
+  </div>
+  <div >
+    <select name="algorithm_name">
+      {% for algorithm_name in algorithm_names %}
+          <option value="{{algorithm_name}}">{{algorithm_name}}</option>"
+      {% endfor %}
+    </select>  
+  </div>
   <input type='submit' name="url" value="done" />
 </form>
 </li>
