@@ -9,7 +9,7 @@ import logging, sys, os
 
 currentdir = os.path.dirname(__file__)
 parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir) 
+sys.path.append(parentdir)
 from gspread_utils import get_worksheet_by_list_of_possible_names
 
 logger = logging.getLogger(__name__)
@@ -51,11 +51,15 @@ def analyze_rows(rows:List[List[str]])->Tuple[list,list,dict]:
 	>>> entitlement_normalized_preferences[agents[0]]  # doctest: +ELLIPSIS
 	{'foreign': 5333.333, 'defence': 5333.333, 'finance': 5333.333, 'police': 2666.667, 'justice': 2666.667, 'interior': 2666.667, 'health': 2666.667, 'educations': 5333.333}
 	"""
-	items = rows[0][2:-1]  # remove agent names, entitlements, and total
+	ROW_OF_ITEM_NAMES = 0         # The item names are on row 0
+	FIRST_COL_OF_ITEM_NAMES = 2   # The item names start at column 2 (columns 0,1 are for agent names, entitlements).
+	items = rows[ROW_OF_ITEM_NAMES][FIRST_COL_OF_ITEM_NAMES:-1]  # remove last column (total)
 	items = [item for item in items if item != '']
 	logger.info("items: %s", items)
 
-	rows_of_agents = rows[1:-1]    # remove item names and total
+
+	FIRST_ROW_OF_AGENT_NAMES = 1                          # remove item names 
+	rows_of_agents = rows[FIRST_ROW_OF_AGENT_NAMES:-1]    # remove total
 	agents = [row[0] for row in rows_of_agents]         
 	logger.info("agents: %s", agents)
 
@@ -70,7 +74,7 @@ def analyze_rows(rows:List[List[str]])->Tuple[list,list,dict]:
 			logger.info("\t%s:\t\t%s\t\t%f",agent, prefs, sum(prefs.values()))	
 
 	def row_to_prefs(row:list)->list:
-		prefs_list = row[2:-1]   # Remove party name, party entitlement, and total
+		prefs_list = row[FIRST_COL_OF_ITEM_NAMES:-1]   # Remove party name, party entitlement, and total
 		prefs_dict = {}
 		for o in range(len(items)):
 			value = prefs_list[o]
@@ -101,10 +105,10 @@ def analyze_rows(rows:List[List[str]])->Tuple[list,list,dict]:
 if __name__=="__main__":
 	# logger.addHandler(logging.StreamHandler())
 	# logger.setLevel(logging.INFO)
-
-	# account = gspread.service_account("credentials.json")
-	# spreadsheet = account.open("FairDivision")
-	# print(read_rows(spreadsheet))
-
 	import doctest
 	print(doctest.testmod(optionflags=doctest.ELLIPSIS))
+	account = gspread.service_account("../credentials.json")
+	
+	from example_url import EXAMPLE_URL
+	spreadsheet = account.open_by_url(EXAMPLE_URL)
+	print(read_rows(spreadsheet))

@@ -8,8 +8,6 @@ import logging, sys, os
 currentdir = os.path.dirname(__file__)
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir) 
-from gspread_utils import get_worksheet_by_list_of_possible_names
-
 
 
 logger = logging.getLogger(__name__)
@@ -30,21 +28,6 @@ TEXTS = {
 }
 
 
-def worksheet(spreadsheet:gspread.Spreadsheet, new_row_count,  new_col_count)->gspread.Worksheet:
-	output_sheet = get_worksheet_by_list_of_possible_names(spreadsheet, ["תוצאות", "output"], error_if_not_found=False)
-	if output_sheet is not None:
-		if output_sheet.row_count < new_row_count:
-			output_sheet.add_rows(new_row_count - output_sheet.row_count)
-		if output_sheet.col_count < new_col_count:
-			output_sheet.add_cols(new_col_count - output_sheet.col_count)
-	else: # if output_sheet is None:
-		output_sheet = spreadsheet.add_worksheet(title="output", rows=new_row_count, cols=new_col_count)
-		# TODO: change worksheet direction to RTL
-		# I did not find here https://docs.gspread.org/en/latest/api/models/worksheet.html#id1   how to do this.
-	# input_range = input.range(1, 1, len(rows), len(rows[0]))
-	# output.update_cells(input_range)
-	return output_sheet
-
 def cells(input_rows, agents, items, map_agent_to_fractions, language="he"):
 	"""
 	Returns new cells, for updating the output worksheet.
@@ -57,8 +40,8 @@ def cells(input_rows, agents, items, map_agent_to_fractions, language="he"):
 	ENTITLEMENT_COLUMN = 2
 
 	new_cells = []
-	new_cells += [gspread.Cell(i+1, NAME_COLUMN, "=input!"+gspread.utils.rowcol_to_a1(i+1,1)) for i in range(len(input_rows))]  # Copy column 1
-	new_cells += [gspread.Cell(i+1, ENTITLEMENT_COLUMN, "=input!"+gspread.utils.rowcol_to_a1(i+1,2)) for i in range(len(input_rows))]  # Copy column 2
+	new_cells += [gspread.Cell(i+1, NAME_COLUMN, "=input!"+gspread.utils.rowcol_to_a1(i+1,NAME_COLUMN)) for i in range(len(input_rows))]  # Copy column 1
+	new_cells += [gspread.Cell(i+1, ENTITLEMENT_COLUMN, "=input!"+gspread.utils.rowcol_to_a1(i+1,ENTITLEMENT_COLUMN)) for i in range(len(input_rows))]  # Copy column 2
 	new_cells += [gspread.Cell(1, o+3, items[o]) for o in range(len(items))]   # Write item names
 
 	# Insert results:
