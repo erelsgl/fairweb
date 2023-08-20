@@ -7,12 +7,12 @@
         $(function() {
           $('button#test').on('click', function(e) {
             e.preventDefault()
-            $.getJSON('/background_process_test', function(data) {});
+            $.getJSON('background_process_test', function(data) {});
             return false;
           });
           $('button#run').on('click', function(e) {
             e.preventDefault()
-            $.getJSON('/run/{{algorithm_name}}?lang={{lang}}&url='+encodeURIComponent('{{url}}'), function(data) {});
+            $.getJSON('run/{{algorithm_name}}?lang={{lang}}&url='+encodeURIComponent('{{url}}'), function(data) {});
             return false;
           });
         });
@@ -28,11 +28,11 @@
 
 <hr/>
 <p class='container'>
-  <a href="/1/{{lang}}">Go back</a>
+  <a href="1/{{lang}}">Go back</a>
 </p>
 
 <p class='container'>
-  <a href="/log">Log file</a>
+  <a href="log">Log file</a>
 </p>
 
 <p class='container'>

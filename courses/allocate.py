@@ -15,7 +15,7 @@ def allocate(agent_capacities, item_capacities, valuations)->dict:
 	>>> agent_capacities = {'s1': 6, 's2': 4, 's3': 4, 's4': 6, 's5': 3}
 	>>> item_capacities = {'c1': 40, 'c2': 40, 'c3': 40, 'c4': 20}
 	>>> valuations = {'s1': {'c1': 161, 'c2': 85, 'c3': 420, 'c4': 332}, 's2': {'c1': 285, 'c2': 141, 'c3': 486, 'c4': 86}, 's3': {'c1': 153, 'c2': 353, 'c3': 278, 'c4': 215}, 's4': {'c1': 99, 'c2': 122, 'c3': 759, 'c4': 18}, 's5': {'c1': 382, 'c2': 257, 'c3': 8, 'c4': 351}}
-	>>> allocate(agent_capacities, item_capacities, valuations)
+	>>> allocate(agent_capacities, item_capacities, valuations)[0]
 	{'s1': ['c1', 'c2', 'c3', 'c4'], 's2': ['c1', 'c2', 'c3', 'c4'], 's3': ['c1', 'c2', 'c3', 'c4'], 's4': ['c1', 'c2', 'c3', 'c4'], 's5': ['c1', 'c2', 'c4']}
 	"""
 	instance = fairpy.courses.Instance(agent_capacities=agent_capacities, item_capacities=item_capacities, valuations=valuations)
